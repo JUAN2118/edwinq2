@@ -1,0 +1,1 @@
+Coloca aquí los diseños reales de calcomanías, organizados por pieza.

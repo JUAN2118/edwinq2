@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="EDWIN GRAPHICS — Diseños y calcomanías personalizadas para motocicletas.">
+<title>EDWIN GRAPHICS | Personaliza tu moto</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="intro"><div class="spray">EDWIN<span>GRAPHICS</span></div></div>
+
+<header class="nav">
+  <a class="logo" href="#inicio">EDWIN<span>GRAPHICS</span></a>
+  <nav><a href="#inicio">Inicio</a><a href="#configurador">Personaliza</a><a href="#productos">Productos</a><a href="#galeria">Galería</a><a href="#contacto">Contacto</a></nav>
+  <button class="icon" id="cartBtn" aria-label="Abrir carrito">🛒<b id="cartCount">0</b></button>
+</header>
+
+<main>
+<section class="hero" id="inicio">
+  <div class="heroText">
+    <p class="eyebrow">STREET • DESIGN • CUSTOM</p>
+    <h1>DISEÑOS QUE<br><span>HACEN LA DIFERENCIA.</span></h1>
+    <p>Personaliza tu motocicleta con diseños únicos y dale un estilo que realmente te represente.</p>
+    <a class="btn" href="#configurador">PERSONALIZA TU MOTO</a>
+  </div>
+  <div class="heroBike" aria-label="Motocicleta de demostración">
+    <div class="bikeGlow"></div><div class="bike">🏍️</div>
+    <small>MODELO 3D DE DEMOSTRACIÓN</small>
+  </div>
+</section>
+
+<section class="config" id="configurador">
+  <div class="sectionTitle"><p class="eyebrow">TU DISEÑO, TU ESTILO</p><h2>PERSONALIZA <span>TU MOTO</span></h2></div>
+  <div class="configGrid">
+    <div class="viewer">
+      <div class="viewerTop"><span>360°</span><button id="resetView">RESTABLECER VISTA</button></div>
+      <div id="model">
+        <div class="modelHint">Arrastra para girar • rueda para zoom</div>
+        <div class="fakeBike">🏍️</div>
+      </div>
+      <p class="modelNote">El visor está preparado para cargar un modelo <b>.GLB/.GLTF</b> fotorrealista.</p>
+    </div>
+    <aside class="controls">
+      <h3>ELIGE LA PIEZA</h3>
+      <div class="parts" id="parts">
+        <button class="active" data-part="guardabarro">Guardabarro</button><button data-part="tanque">Tanque</button>
+        <button data-part="laterales">Laterales</button><button data-part="carenaje">Carenaje</button>
+      </div>
+      <h3>DISEÑO</h3>
+      <div class="designs" id="designs">
+        <button class="design active" data-design="1">DISEÑO 1</button>
+        <button class="design" data-design="2">DISEÑO 2</button>
+        <button class="design" data-design="3">DISEÑO 3</button>
+        <button class="design off" data-design="0">SIN DISEÑO</button>
+      </div>
+      <h3>COLOR BASE</h3>
+      <div class="swatches"><button data-color="#090909" class="sw active"></button><button data-color="#eee" class="sw"></button><button data-color="#b5121b" class="sw"></button><button data-color="#555" class="sw"></button></div>
+      <div class="quote"><span>Precio</span><strong>POR CONFIRMAR</strong></div>
+      <button class="btn full" id="quoteBtn">SOLICITAR COTIZACIÓN</button>
+    </aside>
+  </div>
+</section>
+
+<section class="products" id="productos">
+ <div class="sectionTitle"><p class="eyebrow">CATÁLOGO</p><h2>NUESTROS <span>PRODUCTOS</span></h2></div>
+ <div class="filters"><input id="search" placeholder="Buscar diseño..."><select id="filter"><option value="">Todas las piezas</option><option>Guardabarro</option><option>Tanque</option><option>Laterales</option><option>Carenaje</option></select></div>
+ <div class="productGrid" id="productGrid"></div>
+</section>
+
+<section class="gallery" id="galeria">
+ <div class="sectionTitle"><p class="eyebrow">TRABAJOS</p><h2>GALERÍA <span>EDWIN GRAPHICS</span></h2></div>
+ <div class="galleryGrid"><div>DISEÑO</div><div>DISEÑO</div><div>DISEÑO</div><div>DISEÑO</div></div>
+</section>
+
+<section class="location">
+ <div><p class="eyebrow">ENCUÉNTRANOS</p><h2>PALOS <span>VERDE</span></h2><p>📍 Restrepo, Meta — Colombia</p><p><b>LOCAL 1</b><br><b>LOCAL 2</b></p></div>
+ <div class="map"><span>STREET VIEW</span><small>Espacio preparado para Google Maps / Street View</small></div>
+</section>
+
+<section class="contact" id="contacto">
+ <div class="sectionTitle"><p class="eyebrow">HABLEMOS</p><h2>CONTACTA <span>CON NOSOTROS</span></h2></div>
+ <form id="contactForm"><input required placeholder="Nombre"><input type="email" required placeholder="Correo electrónico"><input placeholder="Teléfono"><textarea required placeholder="Cuéntanos qué diseño necesitas"></textarea><button class="btn">ENVIAR MENSAJE</button></form>
+</section>
+</main>
+
+<div class="cart" id="cart"><button id="closeCart">✕</button><h2>MI CARRITO</h2><div id="cartItems"></div><div class="cartTotal">TOTAL <b>POR CONFIRMAR</b></div></div>
+<div class="toast" id="toast"></div>
+<footer>© 2026 EDWIN GRAPHICS — DISEÑOS QUE HACEN LA DIFERENCIA.</footer>
+<script src="script.js"></script>
+</body></html>
