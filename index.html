@@ -1,0 +1,1587 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EdwinGraphics | Personalización de motos</title>
+<meta name="description" content="EdwinGraphics — Diseño gráfico, vinilos y personalización premium para tu moto. Si quieres personalizar tu moto, no te detengas con nosotros.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* =============================================================
+   EDWINGRAPHICS — DESIGN TOKENS
+   ============================================================= */
+:root{
+  --black:#0a0a0a;
+  --black-2:#131313;
+  --black-3:#1c1c1c;
+  --red:#e0142c;
+  --red-2:#ff2e46;
+  --red-dark:#8f0d1c;
+  --white:#f5f5f3;
+  --gray:#8f8f92;
+  --gray-2:#4a4a4d;
+  --line:rgba(245,245,243,0.10);
+  --glass:rgba(15,15,15,0.55);
+  --font-display:'Space Grotesk', sans-serif;
+  --font-body:'Inter', sans-serif;
+  --radius:10px;
+  --radius-sm:6px;
+  --ease:cubic-bezier(.16,.84,.44,1);
+}
+
+*,*::before,*::after{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;
+  background:var(--black);
+  color:var(--white);
+  font-family:var(--font-body);
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+img{max-width:100%;display:block;}
+a{color:inherit;text-decoration:none;}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit;}
+ul{list-style:none;margin:0;padding:0;}
+h1,h2,h3,h4{font-family:var(--font-display);margin:0;letter-spacing:-0.01em;}
+p{margin:0;}
+.container{max-width:1280px;margin:0 auto;padding:0 24px;}
+.eyebrow{
+  font-family:var(--font-body);
+  font-size:12px;
+  letter-spacing:0.18em;
+  text-transform:uppercase;
+  color:var(--red-2);
+  font-weight:600;
+}
+:focus-visible{outline:2px solid var(--red-2);outline-offset:3px;}
+
+@media (prefers-reduced-motion: reduce){
+  *{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important;scroll-behavior:auto !important;}
+}
+
+/* =============================================================
+   INTRO — typewriter
+   ============================================================= */
+.intro-screen{
+  position:fixed;inset:0;
+  z-index:3000;
+  background:#060606;
+  display:flex;align-items:center;justify-content:center;
+  flex-direction:column;
+  cursor:pointer;
+  opacity:1;visibility:visible;
+  transition:opacity .7s var(--ease), visibility 0s linear 0s;
+}
+.intro-screen::before{
+  content:'';
+  position:absolute;inset:0;
+  background:radial-gradient(ellipse 55% 45% at 50% 45%, rgba(224,20,44,0.12), transparent 65%);
+  pointer-events:none;
+}
+.intro-screen.intro-hide{
+  opacity:0;visibility:hidden;
+  transition:opacity .7s var(--ease), visibility 0s linear .7s;
+}
+.intro-center{position:relative;text-align:center;padding:0 24px;}
+.intro-hint{
+  font-size:12px;letter-spacing:0.14em;text-transform:uppercase;
+  color:var(--gray);margin-bottom:22px;
+  opacity:1;transition:opacity .4s var(--ease);
+}
+.intro-hint.intro-fade{opacity:0;}
+.intro-type{
+  font-family:var(--font-display);
+  font-weight:700;
+  font-size:clamp(30px, 6vw, 62px);
+  letter-spacing:-0.01em;
+  color:var(--white);
+  min-height:1.2em;
+}
+.intro-cursor{
+  color:var(--red-2);
+  font-weight:400;
+  animation:intro-blink 0.9s step-end infinite;
+}
+@keyframes intro-blink{0%,49%{opacity:1;}50%,100%{opacity:0;}}
+.intro-tagline{
+  margin-top:18px;font-size:13px;color:var(--gray);
+  letter-spacing:0.04em;
+  opacity:0;
+  transition:opacity .6s var(--ease);
+}
+.intro-tagline.intro-show{opacity:1;}
+.intro-skip{
+  position:absolute;top:24px;right:24px;
+  font-size:12px;color:var(--gray);
+  border:1px solid var(--line);
+  padding:9px 16px;border-radius:100px;
+  transition:border-color .2s var(--ease), color .2s var(--ease);
+}
+.intro-skip:hover,.intro-skip:focus-visible{border-color:var(--red);color:var(--red-2);}
+@media (max-width:640px){
+  .intro-skip{top:16px;right:16px;}
+}
+
+/* =============================================================
+   HEADER
+   ============================================================= */
+.site-header{
+  position:sticky;
+  top:0;
+  z-index:500;
+  width:100%;
+  background:rgba(9,9,9,0.55);
+  backdrop-filter:blur(14px) saturate(140%);
+  -webkit-backdrop-filter:blur(14px) saturate(140%);
+  border-bottom:1px solid var(--line);
+  transition:background .3s var(--ease), border-color .3s var(--ease);
+}
+.site-header.scrolled{
+  background:rgba(8,8,8,0.82);
+  border-bottom-color:rgba(224,20,44,0.18);
+}
+.header-inner{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  height:74px;
+}
+.brand{display:flex;align-items:center;gap:12px;}
+.brand-logo{
+  width:40px;height:40px;
+  border-radius:8px;
+  object-fit:cover;
+  background:var(--black-3);
+  border:1px solid var(--line);
+}
+.brand-logo-fallback{
+  width:40px;height:40px;border-radius:8px;
+  display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(135deg,var(--red) 0%, var(--red-dark) 100%);
+  font-family:var(--font-display);font-weight:700;font-size:16px;color:var(--white);
+  border:1px solid var(--line);
+}
+.brand-name{
+  font-family:var(--font-display);
+  font-weight:700;
+  font-size:19px;
+  letter-spacing:-0.01em;
+}
+.brand-name span{color:var(--red-2);}
+
+.main-nav{display:flex;align-items:center;gap:36px;}
+.main-nav a{
+  font-size:14px;font-weight:500;color:var(--white);
+  position:relative;padding:6px 0;
+}
+.main-nav a::after{
+  content:'';position:absolute;left:0;bottom:0;height:2px;width:0;
+  background:var(--red);transition:width .25s var(--ease);
+}
+.main-nav a:hover::after,.main-nav a:focus-visible::after{width:100%;}
+
+.header-actions{display:flex;align-items:center;gap:14px;}
+
+.btn-whatsapp{
+  display:flex;align-items:center;gap:8px;
+  padding:10px 18px;
+  border-radius:100px;
+  background:var(--red);
+  color:var(--white);
+  font-size:13px;font-weight:600;
+  border:1px solid rgba(255,255,255,0.08);
+  transition:transform .22s var(--ease), box-shadow .22s var(--ease), background .22s var(--ease);
+  white-space:nowrap;
+}
+.btn-whatsapp svg{width:16px;height:16px;flex-shrink:0;}
+.btn-whatsapp:hover,.btn-whatsapp:focus-visible{
+  background:var(--red-2);
+  transform:translateY(-2px) scale(1.03);
+  box-shadow:0 8px 22px rgba(224,20,44,0.45);
+}
+.btn-whatsapp:active{transform:translateY(0) scale(0.98);}
+
+.cart-btn{
+  position:relative;
+  width:42px;height:42px;
+  border-radius:100px;
+  background:var(--black-3);
+  border:1px solid var(--line);
+  display:flex;align-items:center;justify-content:center;
+  transition:border-color .2s var(--ease), transform .2s var(--ease);
+}
+.cart-btn svg{width:19px;height:19px;}
+.cart-btn:hover,.cart-btn:focus-visible{border-color:var(--red);transform:translateY(-2px);}
+.cart-count{
+  position:absolute;top:-6px;right:-6px;
+  min-width:19px;height:19px;padding:0 4px;
+  border-radius:100px;background:var(--red);
+  font-size:11px;font-weight:700;
+  display:flex;align-items:center;justify-content:center;
+  border:2px solid var(--black);
+}
+
+.hamburger{
+  display:none;
+  width:42px;height:42px;
+  border-radius:8px;
+  background:var(--black-3);
+  border:1px solid var(--line);
+  align-items:center;justify-content:center;
+  flex-direction:column;gap:4px;
+}
+.hamburger span{width:18px;height:2px;background:var(--white);border-radius:2px;transition:transform .25s var(--ease), opacity .25s var(--ease);}
+.hamburger.open span:nth-child(1){transform:translateY(6px) rotate(45deg);}
+.hamburger.open span:nth-child(2){opacity:0;}
+.hamburger.open span:nth-child(3){transform:translateY(-6px) rotate(-45deg);}
+
+.mobile-nav{
+  display:none;
+  max-height:0;
+  overflow:hidden;
+  background:rgba(10,10,10,0.97);
+  border-bottom:1px solid var(--line);
+  transition:max-height .35s var(--ease);
+}
+.mobile-nav.open{max-height:420px;}
+.mobile-nav-inner{padding:18px 24px 26px;display:flex;flex-direction:column;gap:4px;}
+.mobile-nav a{
+  padding:14px 6px;font-size:15px;font-weight:500;
+  border-bottom:1px solid var(--line);
+}
+.mobile-nav .btn-whatsapp{margin-top:14px;justify-content:center;}
+
+/* =============================================================
+   HERO
+   ============================================================= */
+.hero{
+  position:relative;
+  min-height:92vh;
+  display:flex;
+  align-items:center;
+  overflow:hidden;
+  padding:120px 0 80px;
+  isolation:isolate;
+}
+#bg-canvas{
+  position:absolute;inset:0;
+  width:100%;height:100%;
+  z-index:0;
+}
+.hero::before{
+  content:'';
+  position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 60% 50% at 78% 30%, rgba(224,20,44,0.16), transparent 60%),
+    radial-gradient(ellipse 50% 40% at 10% 85%, rgba(224,20,44,0.10), transparent 60%),
+    linear-gradient(180deg, #050505 0%, #0a0a0a 55%, #0d0d0d 100%);
+  z-index:0;
+}
+.hero-grain{
+  position:absolute;inset:0;z-index:1;opacity:0.05;pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+.hero-inner{position:relative;z-index:2;width:100%;}
+.hero-content{max-width:760px;}
+.hero-eyebrow{display:flex;align-items:center;gap:10px;margin-bottom:22px;}
+.hero-eyebrow .dot{width:7px;height:7px;border-radius:50%;background:var(--red);box-shadow:0 0 12px var(--red);animation:pulse-dot 1.8s ease-in-out infinite;}
+@keyframes pulse-dot{0%,100%{opacity:1;}50%{opacity:.35;}}
+
+.hero-wordmark{
+  position:relative;
+  font-family:var(--font-display);
+  font-weight:700;
+  font-size:clamp(38px, 6.4vw, 84px);
+  line-height:0.95;
+  letter-spacing:-0.02em;
+  margin-bottom:26px;
+  color:var(--white);
+}
+.hero-wordmark .paint-word{
+  position:relative;
+  display:inline-block;
+  background-image:linear-gradient(100deg, var(--red-2) 0%, var(--red) 45%, var(--white) 46%, var(--white) 100%);
+  background-size:230% 100%;
+  background-position:100% 0;
+  -webkit-background-clip:text;
+  background-clip:text;
+  -webkit-text-fill-color:transparent;
+  animation:paint-sweep 1.4s var(--ease) .3s forwards;
+}
+@keyframes paint-sweep{
+  0%{background-position:180% 0; filter:blur(6px); opacity:0;}
+  35%{opacity:1;}
+  100%{background-position:0% 0; filter:blur(0); opacity:1;}
+}
+.hero-wordmark .spray-mark{
+  position:absolute;
+  right:-6px;top:-18px;
+  width:64px;height:64px;
+  opacity:0;
+  animation:spray-in .6s ease-out 1.1s forwards;
+}
+@keyframes spray-in{
+  0%{opacity:0;transform:scale(0.4) rotate(-15deg);}
+  60%{opacity:.9;}
+  100%{opacity:.85;transform:scale(1) rotate(0deg);}
+}
+
+.hero-title{
+  font-family:var(--font-display);
+  font-weight:700;
+  font-size:clamp(30px, 4.6vw, 52px);
+  line-height:1.05;
+  margin-bottom:18px;
+  color:var(--white);
+}
+.hero-title .accent{color:var(--red-2);}
+.hero-sub{
+  font-size:clamp(15px,1.6vw,18px);
+  color:var(--gray);
+  max-width:520px;
+  margin-bottom:14px;
+  line-height:1.6;
+}
+.hero-motto{
+  font-size:14px;
+  color:var(--white);
+  border-left:2px solid var(--red);
+  padding-left:14px;
+  margin-bottom:38px;
+  max-width:520px;
+  line-height:1.6;
+  font-style:italic;
+  opacity:.9;
+}
+.hero-actions{display:flex;flex-wrap:wrap;gap:14px;}
+
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  padding:16px 30px;
+  border-radius:100px;
+  font-size:14px;font-weight:600;
+  letter-spacing:0.02em;
+  transition:transform .22s var(--ease), box-shadow .22s var(--ease), background .22s var(--ease), color .22s var(--ease), border-color .22s var(--ease);
+}
+.btn-primary{
+  background:var(--red);
+  color:var(--white);
+  box-shadow:0 0 0 rgba(224,20,44,0);
+}
+.btn-primary:hover,.btn-primary:focus-visible{
+  transform:translateY(-3px) scale(1.02);
+  box-shadow:0 10px 28px rgba(224,20,44,0.5);
+  background:var(--red-2);
+}
+.btn-primary:active{transform:translateY(-1px) scale(0.98);}
+.btn-outline{
+  background:transparent;
+  color:var(--white);
+  border:1px solid rgba(245,245,243,0.28);
+}
+.btn-outline:hover,.btn-outline:focus-visible{
+  border-color:var(--red);
+  color:var(--red-2);
+  transform:translateY(-3px);
+  box-shadow:0 8px 22px rgba(224,20,44,0.18);
+}
+@media (hover:none){
+  .btn-primary:active{background:var(--red-2);box-shadow:0 8px 20px rgba(224,20,44,0.4);}
+  .btn-outline:active{border-color:var(--red);color:var(--red-2);}
+}
+
+/* =============================================================
+   SECTION SHELL
+   ============================================================= */
+.section{padding:110px 0;position:relative;}
+.section-head{max-width:640px;margin-bottom:56px;}
+.section-title{font-size:clamp(28px,3.6vw,42px);margin-top:14px;}
+.section-desc{color:var(--gray);font-size:15px;margin-top:14px;line-height:1.6;}
+
+/* =============================================================
+   PRODUCTS
+   ============================================================= */
+.products-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:22px;
+}
+.product-card{
+  background:var(--black-2);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  overflow:hidden;
+  display:flex;flex-direction:column;
+  transition:border-color .25s var(--ease), transform .25s var(--ease), box-shadow .25s var(--ease);
+}
+.product-card:hover{
+  border-color:rgba(224,20,44,0.4);
+  transform:translateY(-5px);
+  box-shadow:0 16px 32px rgba(0,0,0,0.4);
+}
+.product-media{
+  aspect-ratio:4/3;
+  position:relative;
+  overflow:hidden;
+  background:var(--black-3);
+}
+.product-media svg{width:100%;height:100%;display:block;}
+.product-body{padding:18px 18px 20px;display:flex;flex-direction:column;gap:10px;flex:1;}
+.product-cat{font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--red-2);font-weight:600;}
+.product-name{font-family:var(--font-display);font-size:17px;font-weight:600;}
+.product-price{font-size:13px;color:var(--gray);margin-top:auto;}
+.product-actions{display:flex;gap:8px;margin-top:6px;}
+.btn-sm{
+  flex:1;
+  padding:11px 10px;
+  border-radius:100px;
+  font-size:12.5px;font-weight:600;
+  text-align:center;
+  transition:all .2s var(--ease);
+}
+.btn-sm.ghost{border:1px solid var(--line);color:var(--white);}
+.btn-sm.ghost:hover,.btn-sm.ghost:focus-visible{border-color:var(--red);color:var(--red-2);}
+.btn-sm.solid{background:var(--red);color:var(--white);}
+.btn-sm.solid:hover,.btn-sm.solid:focus-visible{background:var(--red-2);box-shadow:0 6px 16px rgba(224,20,44,0.4);}
+
+/* =============================================================
+   LOCATION
+   ============================================================= */
+.location-wrap{
+  display:grid;
+  grid-template-columns:1fr 1.3fr;
+  gap:40px;
+  align-items:stretch;
+}
+.location-info{
+  background:var(--black-2);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  padding:34px;
+  display:flex;flex-direction:column;
+  gap:18px;
+}
+.location-info h3{font-size:24px;}
+.location-info p{color:var(--gray);font-size:14px;line-height:1.7;}
+.location-locales{display:flex;gap:12px;flex-wrap:wrap;}
+.locale-tag{
+  padding:8px 16px;border-radius:100px;
+  border:1px solid var(--line);font-size:13px;font-weight:500;
+}
+.map-frame{
+  border-radius:var(--radius);
+  overflow:hidden;
+  border:1px solid var(--line);
+  min-height:340px;
+  position:relative;
+}
+.map-frame iframe{width:100%;height:100%;min-height:340px;border:0;filter:grayscale(0.35) invert(0.92) contrast(0.9);}
+
+/* =============================================================
+   SOCIAL
+   ============================================================= */
+.social-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:18px;
+}
+.social-card{
+  background:var(--black-2);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  padding:28px 20px;
+  display:flex;flex-direction:column;
+  align-items:center;
+  gap:14px;
+  text-align:center;
+  transition:transform .25s var(--ease), box-shadow .25s var(--ease), border-color .25s var(--ease), color .25s var(--ease);
+}
+.social-card svg{width:30px;height:30px;transition:transform .25s var(--ease);}
+.social-card span{font-size:13px;font-weight:600;}
+.social-card:hover,.social-card:focus-visible{
+  color:var(--red-2);
+  border-color:var(--red);
+  transform:translateY(-6px) scale(1.03);
+  box-shadow:0 14px 30px rgba(224,20,44,0.28);
+}
+.social-card:hover svg,.social-card:focus-visible svg{transform:scale(1.12);}
+@media (hover:none){
+  .social-card:active{color:var(--red-2);border-color:var(--red);}
+}
+
+/* =============================================================
+   CART DRAWER
+   ============================================================= */
+.overlay{
+  position:fixed;inset:0;
+  background:rgba(0,0,0,0.6);
+  backdrop-filter:blur(3px);
+  z-index:900;
+  opacity:0;pointer-events:none;
+  transition:opacity .3s var(--ease);
+}
+.overlay.open{opacity:1;pointer-events:auto;}
+
+.cart-drawer{
+  position:fixed;top:0;right:0;height:100%;
+  width:420px;max-width:92vw;
+  background:var(--black-2);
+  border-left:1px solid var(--line);
+  z-index:950;
+  display:flex;flex-direction:column;
+  transform:translateX(100%);
+  transition:transform .38s var(--ease);
+}
+.cart-drawer.open{transform:translateX(0);}
+.drawer-head{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:22px 24px;border-bottom:1px solid var(--line);
+}
+.drawer-head h3{font-size:19px;}
+.icon-btn{
+  width:36px;height:36px;border-radius:8px;
+  display:flex;align-items:center;justify-content:center;
+  background:var(--black-3);border:1px solid var(--line);
+  transition:border-color .2s var(--ease);
+}
+.icon-btn:hover,.icon-btn:focus-visible{border-color:var(--red);}
+.icon-btn svg{width:16px;height:16px;}
+
+.cart-items{flex:1;overflow-y:auto;padding:10px 24px;}
+.cart-empty{padding:60px 10px;text-align:center;color:var(--gray);font-size:14px;}
+.cart-item{
+  display:flex;gap:14px;
+  padding:16px 0;
+  border-bottom:1px solid var(--line);
+}
+.cart-item-media{width:64px;height:64px;border-radius:8px;overflow:hidden;background:var(--black-3);flex-shrink:0;}
+.cart-item-media svg{width:100%;height:100%;}
+.cart-item-info{flex:1;display:flex;flex-direction:column;gap:6px;}
+.cart-item-name{font-size:14px;font-weight:600;}
+.cart-item-price{font-size:12px;color:var(--gray);}
+.qty-row{display:flex;align-items:center;gap:10px;}
+.qty-btn{
+  width:24px;height:24px;border-radius:6px;
+  background:var(--black-3);border:1px solid var(--line);
+  display:flex;align-items:center;justify-content:center;font-size:14px;
+}
+.qty-btn:hover{border-color:var(--red);color:var(--red-2);}
+.qty-val{font-size:13px;min-width:16px;text-align:center;}
+.remove-item{margin-left:auto;font-size:12px;color:var(--gray);text-decoration:underline;}
+.remove-item:hover{color:var(--red-2);}
+
+.drawer-footer{padding:20px 24px 26px;border-top:1px solid var(--line);}
+.subtotal-row{display:flex;justify-content:space-between;font-size:14px;margin-bottom:16px;}
+.subtotal-row strong{font-family:var(--font-display);font-size:16px;}
+.btn-block{width:100%;}
+
+/* =============================================================
+   MODAL (product details / checkout)
+   ============================================================= */
+.modal{
+  position:fixed;inset:0;
+  z-index:970;
+  display:flex;align-items:center;justify-content:center;
+  padding:20px;
+  opacity:0;pointer-events:none;
+  transition:opacity .3s var(--ease);
+}
+.modal.open{opacity:1;pointer-events:auto;}
+.modal-card{
+  background:var(--black-2);
+  border:1px solid var(--line);
+  border-radius:14px;
+  width:100%;max-width:520px;
+  max-height:88vh;overflow-y:auto;
+  padding:0;
+  position:relative;
+  transform:translateY(18px) scale(.98);
+  transition:transform .3s var(--ease);
+}
+.modal.open .modal-card{transform:translateY(0) scale(1);}
+.modal-close{position:absolute;top:16px;right:16px;z-index:2;}
+.modal-media{aspect-ratio:16/10;background:var(--black-3);}
+.modal-media svg{width:100%;height:100%;}
+.modal-body{padding:26px 26px 30px;}
+.modal-body .product-cat{margin-bottom:8px;}
+.modal-body h3{font-size:22px;margin-bottom:10px;}
+.modal-body .desc{color:var(--gray);font-size:14px;line-height:1.7;margin-bottom:16px;}
+.modal-body .product-price{margin-bottom:20px;display:block;}
+
+/* Checkout modal */
+.checkout-card{
+  max-width:640px;
+  border:1px solid var(--line);
+  overflow:hidden;
+  position:relative;
+}
+.checkout-card::before,.checkout-card::after{
+  content:'';position:absolute;top:0;bottom:0;width:2px;
+  background:linear-gradient(180deg, transparent, var(--red) 20%, var(--red-2) 50%, var(--red) 80%, transparent);
+  animation:edge-run 2.6s linear infinite;
+  opacity:.8;
+}
+.checkout-card::before{left:0;}
+.checkout-card::after{right:0;animation-direction:reverse;}
+@keyframes edge-run{
+  0%{background-position-y:-100%;}
+  100%{background-position-y:100%;}
+}
+.checkout-scroll{max-height:82vh;overflow-y:auto;}
+.checkout-body{padding:30px 30px 34px;}
+.checkout-body h3{font-size:22px;margin-bottom:6px;}
+.edwin-msg{
+  background:var(--black-3);
+  border:1px solid var(--line);
+  border-left:3px solid var(--red);
+  border-radius:8px;
+  padding:16px 18px;
+  font-size:13.5px;
+  line-height:1.7;
+  color:var(--white);
+  margin:18px 0 24px;
+}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.form-grid .full{grid-column:1/-1;}
+.field{display:flex;flex-direction:column;gap:6px;}
+.field label{font-size:12px;color:var(--gray);font-weight:500;}
+.field input,.field textarea,.field select{
+  background:var(--black-3);
+  border:1px solid var(--line);
+  border-radius:8px;
+  padding:12px 14px;
+  color:var(--white);
+  font-family:inherit;font-size:14px;
+  transition:border-color .2s var(--ease);
+}
+.field input:focus,.field textarea:focus,.field select:focus{border-color:var(--red);outline:none;}
+.field textarea{resize:vertical;min-height:70px;}
+
+.pay-methods{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:22px 0;}
+.pay-method{
+  border:1px solid var(--line);
+  border-radius:8px;
+  padding:14px 10px;
+  text-align:center;
+  cursor:pointer;
+  font-size:12.5px;font-weight:600;
+  transition:border-color .2s var(--ease), background .2s var(--ease);
+}
+.pay-method input{display:none;}
+.pay-method.active,.pay-method:has(input:checked){border-color:var(--red);background:rgba(224,20,44,0.08);color:var(--red-2);}
+
+.secure-box{
+  display:flex;gap:12px;align-items:flex-start;
+  background:var(--black-3);border:1px solid var(--line);border-radius:8px;
+  padding:14px 16px;margin-bottom:22px;font-size:12.5px;color:var(--gray);line-height:1.6;
+}
+.secure-box svg{width:18px;height:18px;flex-shrink:0;margin-top:1px;color:var(--red-2);}
+
+.order-summary{border-top:1px solid var(--line);padding-top:18px;margin-top:6px;}
+.order-summary .row{display:flex;justify-content:space-between;font-size:13px;padding:5px 0;color:var(--gray);}
+.order-summary .row strong{color:var(--white);}
+
+/* =============================================================
+   FOOTER
+   ============================================================= */
+.site-footer{
+  background:#050505;
+  border-top:1px solid var(--line);
+  padding:70px 0 30px;
+}
+.footer-grid{
+  display:grid;grid-template-columns:2fr 1fr 1fr;
+  gap:40px;
+  padding-bottom:44px;
+  border-bottom:1px solid var(--line);
+}
+.footer-brand .brand{margin-bottom:16px;}
+.footer-brand p{color:var(--gray);font-size:13.5px;line-height:1.7;max-width:320px;}
+.footer-col h4{font-size:13px;text-transform:uppercase;letter-spacing:0.08em;color:var(--gray);margin-bottom:16px;}
+.footer-col ul{display:flex;flex-direction:column;gap:11px;}
+.footer-col a{font-size:14px;color:var(--white);opacity:.85;transition:opacity .2s, color .2s;}
+.footer-col a:hover{opacity:1;color:var(--red-2);}
+.footer-bottom{
+  display:flex;justify-content:space-between;align-items:center;
+  padding-top:24px;font-size:12.5px;color:var(--gray);flex-wrap:wrap;gap:10px;
+}
+
+/* =============================================================
+   WHATSAPP FLOAT
+   ============================================================= */
+.wa-float{
+  position:fixed;bottom:22px;right:22px;z-index:600;
+  width:56px;height:56px;border-radius:50%;
+  background:var(--red);
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 10px 26px rgba(224,20,44,0.5);
+  transition:transform .25s var(--ease), box-shadow .25s var(--ease);
+}
+.wa-float svg{width:26px;height:26px;}
+.wa-float:hover,.wa-float:focus-visible{transform:scale(1.08);box-shadow:0 14px 32px rgba(224,20,44,0.6);}
+@media (min-width:901px){.wa-float{display:none;}}
+
+/* Toast */
+.toast{
+  position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);
+  background:var(--black-3);border:1px solid var(--red);
+  padding:13px 22px;border-radius:100px;font-size:13.5px;font-weight:500;
+  z-index:1200;opacity:0;pointer-events:none;
+  transition:opacity .3s var(--ease), transform .3s var(--ease);
+  display:flex;align-items:center;gap:8px;
+}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+.toast svg{width:16px;height:16px;color:var(--red-2);}
+
+/* =============================================================
+   RESPONSIVE
+   ============================================================= */
+@media (max-width:1080px){
+  .products-grid{grid-template-columns:repeat(3,1fr);}
+  .social-grid{grid-template-columns:repeat(4,1fr);}
+}
+@media (max-width:900px){
+  .main-nav,.header-actions .btn-whatsapp{display:none;}
+  .hamburger{display:flex;}
+  .mobile-nav{display:block;}
+  .products-grid{grid-template-columns:repeat(2,1fr);gap:16px;}
+  .location-wrap{grid-template-columns:1fr;}
+  .footer-grid{grid-template-columns:1fr 1fr;}
+  .footer-brand{grid-column:1/-1;}
+  .cart-drawer{width:100%;max-width:100%;}
+}
+@media (max-width:640px){
+  .container{padding:0 18px;}
+  .section{padding:72px 0;}
+  .hero{padding:104px 0 60px;min-height:auto;}
+  .hero-actions{flex-direction:column;}
+  .hero-actions .btn{width:100%;}
+  .products-grid{grid-template-columns:1fr 1fr;gap:12px;}
+  .product-body{padding:13px 13px 15px;}
+  .product-name{font-size:14.5px;}
+  .btn-sm{font-size:11px;padding:10px 6px;}
+  .social-grid{grid-template-columns:1fr 1fr;}
+  .form-grid{grid-template-columns:1fr;}
+  .pay-methods{grid-template-columns:1fr;}
+  .footer-grid{grid-template-columns:1fr;gap:28px;}
+  .footer-bottom{flex-direction:column;align-items:flex-start;}
+}
+html,body{max-width:100%;overflow-x:hidden;}
+</style>
+</head>
+<body>
+
+<!-- =========================================================
+     INTRO — typewriter con sonido
+     ========================================================= -->
+<div class="intro-screen" id="introScreen" role="dialog" aria-label="Introducción EdwinGraphics">
+  <button class="intro-skip" id="introSkip">Saltar intro</button>
+  <div class="intro-center">
+    <p class="intro-hint" id="introHint">Toca o presiona una tecla para comenzar</p>
+    <h1 class="intro-type" id="introType" aria-live="polite"><span id="introTypeText"></span><span class="intro-cursor" id="introCursor">|</span></h1>
+    <p class="intro-tagline">Diseño gráfico &amp; personalización de motos</p>
+  </div>
+</div>
+
+<!-- =========================================================
+     HEADER
+     ========================================================= -->
+<header class="site-header" id="siteHeader">
+  <div class="container header-inner">
+    <a href="#inicio" class="brand" aria-label="EdwinGraphics, inicio">
+      <img src="logo-edwin.png" alt="Logo EdwinGraphics" class="brand-logo" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'brand-logo-fallback',textContent:'EG'}))">
+      <span class="brand-name">Edwin<span>Graphics</span></span>
+    </a>
+
+    <nav class="main-nav" aria-label="Navegación principal">
+      <a href="#inicio">Inicio</a>
+      <a href="#productos">Productos</a>
+      <a href="#ubicacion">Ubicación</a>
+      <a href="#contacto">Contacto</a>
+    </nav>
+
+    <div class="header-actions">
+      <a class="btn-whatsapp" href="https://wa.me/573222493522" target="_blank" rel="noopener" aria-label="Escribir por WhatsApp">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.5 14.4c-.3-.1-1.7-.8-2-1-.3-.1-.5-.1-.7.1-.2.3-.8 1-.9 1.1-.2.2-.3.2-.6.1-.3-.1-1.2-.4-2.3-1.4-.9-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.6.1-.1.3-.3.4-.5.1-.1.2-.3.3-.4.1-.2 0-.4 0-.5-.1-.1-.7-1.6-.9-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.4s1.1 2.8 1.2 3c.1.2 2.1 3.2 5.1 4.5.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.7-.7 2-1.4.2-.7.2-1.2.2-1.4-.1-.1-.3-.2-.6-.3z"/><path d="M12 2C6.5 2 2 6.5 2 12c0 1.9.5 3.7 1.5 5.3L2 22l4.9-1.3c1.5.8 3.2 1.3 5.1 1.3 5.5 0 10-4.5 10-10S17.5 2 12 2zm0 18.1c-1.7 0-3.4-.5-4.8-1.3l-.3-.2-3.2.8.9-3.1-.2-.3C3.6 14.5 3 13.3 3 12c0-4.9 4-9 9-9s9 4 9 9-4 9-9 9z"/></svg>
+        WhatsApp
+      </a>
+      <button class="cart-btn" id="cartOpenBtn" aria-label="Abrir carrito de compras">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 4h2l2.4 12.4a2 2 0 0 0 2 1.6h7.7a2 2 0 0 0 2-1.6L21 8H6"/><circle cx="10" cy="21" r="1"/><circle cx="17" cy="21" r="1"/></svg>
+        <span class="cart-count" id="cartCount">0</span>
+      </button>
+      <button class="hamburger" id="hamburgerBtn" aria-label="Abrir menú" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+
+  <div class="mobile-nav" id="mobileNav">
+    <div class="mobile-nav-inner">
+      <a href="#inicio">Inicio</a>
+      <a href="#productos">Productos</a>
+      <a href="#ubicacion">Ubicación</a>
+      <a href="#contacto">Contacto</a>
+      <a class="btn-whatsapp" href="https://wa.me/573222493522" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.5 14.4c-.3-.1-1.7-.8-2-1-.3-.1-.5-.1-.7.1-.2.3-.8 1-.9 1.1-.2.2-.3.2-.6.1-.3-.1-1.2-.4-2.3-1.4-.9-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.6.1-.1.3-.3.4-.5.1-.1.2-.3.3-.4.1-.2 0-.4 0-.5-.1-.1-.7-1.6-.9-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.4s1.1 2.8 1.2 3c.1.2 2.1 3.2 5.1 4.5.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.7-.7 2-1.4.2-.7.2-1.2.2-1.4-.1-.1-.3-.2-.6-.3z"/><path d="M12 2C6.5 2 2 6.5 2 12c0 1.9.5 3.7 1.5 5.3L2 22l4.9-1.3c1.5.8 3.2 1.3 5.1 1.3 5.5 0 10-4.5 10-10S17.5 2 12 2zm0 18.1c-1.7 0-3.4-.5-4.8-1.3l-.3-.2-3.2.8.9-3.1-.2-.3C3.6 14.5 3 13.3 3 12c0-4.9 4-9 9-9s9 4 9 9-4 9-9 9z"/></svg>
+        Escríbenos por WhatsApp
+      </a>
+    </div>
+  </div>
+</header>
+
+<!-- =========================================================
+     HERO
+     ========================================================= -->
+<section class="hero" id="inicio">
+  <canvas id="bg-canvas" aria-hidden="true"></canvas>
+  <div class="hero-grain" aria-hidden="true"></div>
+  <div class="container hero-inner">
+    <div class="hero-content">
+      <div class="hero-eyebrow"><span class="dot"></span><span class="eyebrow">Diseño gráfico &amp; personalización para motos</span></div>
+
+      <h1 class="hero-wordmark">
+        <span class="paint-word">EdwinGraphics</span>
+        <svg class="spray-mark" viewBox="0 0 64 64" aria-hidden="true">
+          <circle cx="10" cy="12" r="2.4" fill="var(--red-2)"/>
+          <circle cx="20" cy="6" r="1.6" fill="var(--red)"/>
+          <circle cx="30" cy="14" r="1.2" fill="var(--white)" opacity=".6"/>
+          <circle cx="5" cy="24" r="1.4" fill="var(--red-2)"/>
+          <path d="M2 40 C 18 34, 30 46, 46 36" stroke="var(--red)" stroke-width="2" fill="none" stroke-linecap="round" opacity=".65"/>
+        </svg>
+      </h1>
+
+      <h2 class="hero-title">TU MOTO, <span class="accent">TU IDENTIDAD</span></h2>
+      <p class="hero-sub">Transformamos tus ideas en diseños que hacen la diferencia.</p>
+      <p class="hero-motto">"Si quieres personalizar tu moto, no te detengas con nosotros. EdwinCalcomanias puede llevar tu moto a otro nivel."</p>
+
+      <div class="hero-actions">
+        <a href="#productos" class="btn btn-primary">Ver productos</a>
+        <a href="#productos" class="btn btn-outline">Personaliza tu diseño</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     PRODUCTOS
+     ========================================================= -->
+<section class="section" id="productos">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">Catálogo</span>
+      <h2 class="section-title">Productos</h2>
+      <p class="section-desc">Elige el diseño que más se adapte a tu estilo.</p>
+    </div>
+    <div class="products-grid" id="productsGrid"></div>
+  </div>
+</section>
+
+<!-- =========================================================
+     UBICACIÓN
+     ========================================================= -->
+<section class="section" id="ubicacion">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">Visítanos</span>
+      <h2 class="section-title">Ubicación</h2>
+      <p class="section-desc">Encuéntranos en nuestros locales físicos.</p>
+    </div>
+    <div class="location-wrap">
+      <div class="location-info">
+        <h3>Palos Verde</h3>
+        <p>Contamos con dos locales dentro del mismo punto para atenderte mejor y mostrarte nuestros trabajos en vivo.</p>
+        <div class="location-locales">
+          <span class="locale-tag">Local 1</span>
+          <span class="locale-tag">Local 2</span>
+        </div>
+        <a href="https://maps.app.goo.gl/6gZzkRh1tiLtpwGb9" target="_blank" rel="noopener" class="btn btn-primary" style="margin-top:auto;">Ver ruta</a>
+      </div>
+      <div class="map-frame">
+        <!-- GOOGLE_MAPS_EMBED_URL: reemplazar por el embed oficial con API Key cuando esté disponible -->
+        <iframe
+          src="https://www.google.com/maps?q=4.2630666,-73.5584399+(Palos+Verdes)&z=17&output=embed"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          title="Mapa de ubicación EdwinGraphics — Palos Verde">
+        </iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     REDES SOCIALES
+     ========================================================= -->
+<section class="section" id="contacto">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">Síguenos</span>
+      <h2 class="section-title">Redes sociales</h2>
+      <p class="section-desc">Mira nuestros trabajos y escríbenos directamente.</p>
+    </div>
+    <div class="social-grid">
+      <a class="social-card" href="https://www.tiktok.com/@edwincalcomanias?_r=1&_t=ZS-98seQZ9qe1c" target="_blank" rel="noopener" aria-label="TikTok de EdwinGraphics">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.6 5.8a4.3 4.3 0 0 1-3.1-1.3V15a5.1 5.1 0 1 1-5.1-5.1c.3 0 .5 0 .8.1v2.6a2.5 2.5 0 1 0 1.8 2.4V2h2.5a4.3 4.3 0 0 0 3.1 3.8z"/></svg>
+        <span>TikTok</span>
+      </a>
+      <a class="social-card" href="https://www.instagram.com/ediwngrapichs?igsh=MXQ1em9iNHNwOG83dw==" target="_blank" rel="noopener" aria-label="Instagram de EdwinGraphics">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1"/></svg>
+        <span>Instagram</span>
+      </a>
+      <a class="social-card" href="https://www.facebook.com/share/1Jp7fpSR3B/?mibextid=wwXIfr" target="_blank" rel="noopener" aria-label="Facebook de EdwinGraphics">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13.5 21v-7.6h2.6l.4-3h-3V8.4c0-.9.2-1.5 1.6-1.5h1.6V4.2C16.4 4.1 15.4 4 14.3 4c-2.4 0-4.1 1.5-4.1 4.1v2.3H7.6v3h2.6V21z"/></svg>
+        <span>Facebook</span>
+      </a>
+      <a class="social-card" href="https://wa.me/573222493522" target="_blank" rel="noopener" aria-label="WhatsApp de EdwinGraphics">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.5 14.4c-.3-.1-1.7-.8-2-1-.3-.1-.5-.1-.7.1-.2.3-.8 1-.9 1.1-.2.2-.3.2-.6.1-.3-.1-1.2-.4-2.3-1.4-.9-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.6.1-.1.3-.3.4-.5.1-.1.2-.3.3-.4.1-.2 0-.4 0-.5-.1-.1-.7-1.6-.9-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.4s1.1 2.8 1.2 3c.1.2 2.1 3.2 5.1 4.5.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.7-.7 2-1.4.2-.7.2-1.2.2-1.4-.1-.1-.3-.2-.6-.3z"/><path d="M12 2C6.5 2 2 6.5 2 12c0 1.9.5 3.7 1.5 5.3L2 22l4.9-1.3c1.5.8 3.2 1.3 5.1 1.3 5.5 0 10-4.5 10-10S17.5 2 12 2zm0 18.1c-1.7 0-3.4-.5-4.8-1.3l-.3-.2-3.2.8.9-3.1-.2-.3C3.6 14.5 3 13.3 3 12c0-4.9 4-9 9-9s9 4 9 9-4 9-9 9z"/></svg>
+        <span>WhatsApp</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     FOOTER
+     ========================================================= -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="#inicio" class="brand" aria-label="EdwinGraphics, inicio">
+          <img src="logo-edwin.png" alt="Logo EdwinGraphics" class="brand-logo" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'brand-logo-fallback',textContent:'EG'}))">
+          <span class="brand-name">Edwin<span>Graphics</span></span>
+        </a>
+        <p>Si quieres personalizar tu moto, no te detengas con nosotros.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Navegación</h4>
+        <ul>
+          <li><a href="#inicio">Inicio</a></li>
+          <li><a href="#productos">Productos</a></li>
+          <li><a href="#ubicacion">Ubicación</a></li>
+          <li><a href="#contacto">Contacto</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contacto</h4>
+        <ul>
+          <li><a href="https://wa.me/573222493522" target="_blank" rel="noopener">WhatsApp</a></li>
+          <li><a href="https://www.instagram.com/ediwngrapichs?igsh=MXQ1em9iNHNwOG83dw==" target="_blank" rel="noopener">Instagram</a></li>
+          <li><a href="https://www.tiktok.com/@edwincalcomanias?_r=1&_t=ZS-98seQZ9qe1c" target="_blank" rel="noopener">TikTok</a></li>
+          <li><a href="https://www.facebook.com/share/1Jp7fpSR3B/?mibextid=wwXIfr" target="_blank" rel="noopener">Facebook</a></li>
+          <li><a href="https://maps.app.goo.gl/6gZzkRh1tiLtpwGb9" target="_blank" rel="noopener">Palos Verde — Ver ruta</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 EdwinGraphics. Todos los derechos reservados.</span>
+      <span>Diseño gráfico &amp; personalización de motos — Colombia</span>
+    </div>
+  </div>
+</footer>
+
+<!-- =========================================================
+     CARRITO (drawer)
+     ========================================================= -->
+<div class="overlay" id="overlay"></div>
+
+<aside class="cart-drawer" id="cartDrawer" aria-label="Carrito de compras">
+  <div class="drawer-head">
+    <h3>Tu carrito</h3>
+    <button class="icon-btn" id="cartCloseBtn" aria-label="Cerrar carrito">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+  </div>
+  <div class="cart-items" id="cartItems"></div>
+  <div class="drawer-footer">
+    <div class="subtotal-row">
+      <span>Subtotal</span>
+      <strong id="cartSubtotal">Precio por confirmar</strong>
+    </div>
+    <button class="btn btn-primary btn-block" id="goCheckoutBtn">Continuar al checkout</button>
+  </div>
+</aside>
+
+<!-- =========================================================
+     MODAL — VER DETALLES
+     ========================================================= -->
+<div class="modal" id="productModal" aria-hidden="true">
+  <div class="modal-card">
+    <button class="icon-btn modal-close" id="productModalClose" aria-label="Cerrar">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+    <div class="modal-media" id="modalMedia"></div>
+    <div class="modal-body">
+      <span class="product-cat" id="modalCat"></span>
+      <h3 id="modalName"></h3>
+      <p class="desc" id="modalDesc"></p>
+      <span class="product-price" id="modalPrice">Precio: Por confirmar</span>
+      <button class="btn btn-primary btn-block" id="modalAddBtn">Añadir al carrito</button>
+    </div>
+  </div>
+</div>
+
+<!-- =========================================================
+     MODAL — CHECKOUT
+     ========================================================= -->
+<div class="modal" id="checkoutModal" aria-hidden="true">
+  <div class="modal-card checkout-card">
+    <button class="icon-btn modal-close" id="checkoutModalClose" aria-label="Cerrar checkout">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+    <div class="checkout-scroll">
+      <div class="checkout-body">
+        <span class="eyebrow">Finalizar pedido</span>
+        <h3>Checkout</h3>
+
+        <div class="edwin-msg">
+          Hola, te habla Edwin. El diseño que escogiste está muy chimba, bro 😎. Ahora hagamos el pago desde tu forma de pago favorita para poder recibir tu diseño. No olvides poner tu dirección exacta para realizar el envío.
+        </div>
+
+        <form id="checkoutForm">
+          <div class="form-grid">
+            <div class="field"><label for="fname">Nombre</label><input id="fname" name="fname" type="text" required></div>
+            <div class="field"><label for="lname">Apellido</label><input id="lname" name="lname" type="text" required></div>
+            <div class="field"><label for="phone">Teléfono</label><input id="phone" name="phone" type="tel" required></div>
+            <div class="field"><label for="email">Correo electrónico</label><input id="email" name="email" type="email" required></div>
+            <div class="field full"><label for="address">Dirección exacta</label><input id="address" name="address" type="text" required></div>
+            <div class="field"><label for="city">Ciudad</label><input id="city" name="city" type="text" required></div>
+            <div class="field"><label for="dept">Departamento</label><input id="dept" name="dept" type="text" required></div>
+            <div class="field full"><label for="notes">Indicaciones adicionales</label><textarea id="notes" name="notes"></textarea></div>
+          </div>
+
+          <div style="margin-top:22px;">
+            <label style="font-size:12px;color:var(--gray);font-weight:500;">Método de pago</label>
+            <div class="pay-methods">
+              <label class="pay-method"><input type="radio" name="payment" value="PSE" required>PSE</label>
+              <label class="pay-method"><input type="radio" name="payment" value="Nequi">Nequi</label>
+              <label class="pay-method"><input type="radio" name="payment" value="Tarjeta débito/crédito">Tarjeta</label>
+            </div>
+          </div>
+
+          <div class="secure-box">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2l8 4v6c0 5-3.4 8.7-8 10-4.6-1.3-8-5-8-10V6z"/></svg>
+            <span>Pago seguro: la pasarela real se conectará mediante Shopify. Por ahora tu pedido queda registrado como solicitud de compra / reserva. <span id="shopifyNotice"></span></span>
+          </div>
+
+          <div class="order-summary" id="orderSummary"></div>
+
+          <button type="submit" class="btn btn-primary btn-block" style="margin-top:22px;">Confirmar y pagar</button>
+        </form>
+
+        <div id="checkoutConfirm" style="display:none;">
+          <div class="secure-box" style="border-color:var(--red);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 6L9 17l-5-5"/></svg>
+            <span id="checkoutConfirmText"></span>
+          </div>
+          <a class="btn btn-outline btn-block" id="checkoutWaBtn" href="#" target="_blank" rel="noopener">Contactar a Edwin por WhatsApp (opcional)</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- WhatsApp flotante (móvil) -->
+<a class="wa-float" href="https://wa.me/573222493522" target="_blank" rel="noopener" aria-label="Escribir por WhatsApp">
+  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.5 14.4c-.3-.1-1.7-.8-2-1-.3-.1-.5-.1-.7.1-.2.3-.8 1-.9 1.1-.2.2-.3.2-.6.1-.3-.1-1.2-.4-2.3-1.4-.9-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.6.1-.1.3-.3.4-.5.1-.1.2-.3.3-.4.1-.2 0-.4 0-.5-.1-.1-.7-1.6-.9-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.4s1.1 2.8 1.2 3c.1.2 2.1 3.2 5.1 4.5.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.7-.7 2-1.4.2-.7.2-1.2.2-1.4-.1-.1-.3-.2-.6-.3z"/><path d="M12 2C6.5 2 2 6.5 2 12c0 1.9.5 3.7 1.5 5.3L2 22l4.9-1.3c1.5.8 3.2 1.3 5.1 1.3 5.5 0 10-4.5 10-10S17.5 2 12 2zm0 18.1c-1.7 0-3.4-.5-4.8-1.3l-.3-.2-3.2.8.9-3.1-.2-.3C3.6 14.5 3 13.3 3 12c0-4.9 4-9 9-9s9 4 9 9-4 9-9 9z"/></svg>
+</a>
+
+<div class="toast" id="toast">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
+  <span id="toastText">Añadido al carrito</span>
+</div>
+
+<script>
+/* =============================================================
+   INTRO — typewriter con sonido (Web Audio API, sin archivos externos)
+   ============================================================= */
+(function(){
+  const screenEl = document.getElementById('introScreen');
+  const typeText = document.getElementById('introTypeText');
+  const cursor = document.getElementById('introCursor');
+  const hint = document.getElementById('introHint');
+  const tagline = document.querySelector('.intro-tagline');
+  const skipBtn = document.getElementById('introSkip');
+  const WORD = 'EdwinGraphics';
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  let audioCtx = null;
+  let started = false;
+  let finished = false;
+
+  function getCtx(){
+    if(!audioCtx){
+      const AC = window.AudioContext || window.webkitAudioContext;
+      if(AC) audioCtx = new AC();
+    }
+    return audioCtx;
+  }
+
+  /* "clac" corto de tecla de máquina de escribir */
+  function playKeySound(){
+    const ctx = getCtx();
+    if(!ctx) return;
+    const t = ctx.currentTime;
+
+    const osc = ctx.createOscillator();
+    osc.type = 'square';
+    osc.frequency.setValueAtTime(180 + Math.random()*40, t);
+    osc.frequency.exponentialRampToValueAtTime(70, t+0.045);
+
+    const gain = ctx.createGain();
+    gain.gain.setValueAtTime(0.0001, t);
+    gain.gain.exponentialRampToValueAtTime(0.16, t+0.006);
+    gain.gain.exponentialRampToValueAtTime(0.0001, t+0.06);
+
+    osc.connect(gain).connect(ctx.destination);
+    osc.start(t);
+    osc.stop(t+0.07);
+  }
+
+  /* campanilla elegante al terminar, tipo "ding" de retorno de carro */
+  function playBell(){
+    const ctx = getCtx();
+    if(!ctx) return;
+    const t = ctx.currentTime;
+    [1046.5, 1567.98].forEach((freq, i)=>{
+      const osc = ctx.createOscillator();
+      osc.type = 'sine';
+      osc.frequency.value = freq;
+      const gain = ctx.createGain();
+      gain.gain.setValueAtTime(0.0001, t);
+      gain.gain.exponentialRampToValueAtTime(i===0?0.14:0.08, t+0.02);
+      gain.gain.exponentialRampToValueAtTime(0.0001, t+0.9);
+      osc.connect(gain).connect(ctx.destination);
+      osc.start(t);
+      osc.stop(t+0.95);
+    });
+  }
+
+  function closeIntro(){
+    if(finished) return;
+    finished = true;
+    document.body.style.overflow = '';
+    screenEl.classList.add('intro-hide');
+    setTimeout(()=>{ screenEl.style.display='none'; }, 750);
+  }
+
+  function typeWord(){
+    hint.classList.add('intro-fade');
+    let i = 0;
+    const delay = reducedMotion ? 10 : 130;
+    const step = ()=>{
+      if(i < WORD.length){
+        typeText.textContent += WORD[i];
+        playKeySound();
+        i++;
+        setTimeout(step, delay + Math.random()*60);
+      } else {
+        cursor.style.animation = 'none';
+        playBell();
+        tagline.classList.add('intro-show');
+        setTimeout(closeIntro, reducedMotion ? 200 : 1300);
+      }
+    };
+    step();
+  }
+
+  function startIntro(){
+    if(started) return;
+    started = true;
+    getCtx();
+    if(audioCtx && audioCtx.state === 'suspended'){ audioCtx.resume(); }
+    typeWord();
+  }
+
+  document.body.style.overflow = 'hidden';
+  screenEl.addEventListener('click', startIntro);
+  window.addEventListener('keydown', startIntro, {once:true});
+  window.addEventListener('touchstart', startIntro, {once:true, passive:true});
+  skipBtn.addEventListener('click', (e)=>{ e.stopPropagation(); closeIntro(); });
+
+  /* si el usuario no interactúa, arranca solo tras un momento (sin sonido si el navegador lo bloquea) */
+  setTimeout(()=>{ if(!started) startIntro(); }, 4500);
+})();
+
+/* =============================================================
+   CONFIG — reemplazar cuando esté disponible
+   ============================================================= */
+const SHOPIFY_CHECKOUT_URL = ""; // TODO: pegar aquí el checkout de Shopify cuando esté listo
+const WHATSAPP_NUMBER = "573222493522";
+
+if(!SHOPIFY_CHECKOUT_URL){
+  const notice = document.getElementById('shopifyNotice');
+  if(notice) notice.textContent = "(Shopify aún no está conectado)";
+}
+
+/* =============================================================
+   DATOS DE PRODUCTOS
+   ============================================================= */
+const PRODUCTS = [
+  {id:'p1', cat:'Guardabarro', name:'Guardabarro — Diseño 1', desc:'Composición gráfica en vinilo rojo y negro con trazos urbanos, ideal para un acabado agresivo y limpio.', shape:'fender', variant:1},
+  {id:'p2', cat:'Guardabarro', name:'Guardabarro — Diseño 2', desc:'Líneas dinámicas con textura de aerosol y destellos blancos para un contraste elegante.', shape:'fender', variant:2},
+  {id:'p3', cat:'Guardabarro', name:'Guardabarro — Diseño 3', desc:'Patrón geométrico inspirado en texturas urbanas, con degradado rojo intenso.', shape:'fender', variant:3},
+  {id:'p4', cat:'Tanque', name:'Tanque — Diseño 1', desc:'Vinilo de gran formato con trazos de pintura y partículas, pensado para resaltar el volumen del tanque.', shape:'tank', variant:1},
+  {id:'p5', cat:'Tanque', name:'Tanque — Diseño 2', desc:'Composición de líneas cruzadas y salpicaduras en rojo sobre base negra profunda.', shape:'tank', variant:2},
+  {id:'p6', cat:'Laterales', name:'Laterales — Diseño 1', desc:'Vinilo lateral con textura de spray y acentos blancos para marcar la silueta de la moto.', shape:'side', variant:1},
+  {id:'p7', cat:'Laterales', name:'Laterales — Diseño 2', desc:'Trazos angulares en rojo y negro con efecto de profundidad gráfica.', shape:'side', variant:2},
+  {id:'p8', cat:'Carenaje', name:'Carenaje — Diseño 1', desc:'Diseño premium de piezas gráficas superpuestas, con líneas finas y acabado urbano.', shape:'fairing', variant:1},
+];
+
+/* Placeholder simple mientras se sube la foto real del producto */
+function productSVG(p, big){
+  const w = big ? 520 : 400, h = big ? 320 : 300;
+  return `<svg viewBox="0 0 ${w} ${h}" preserveAspectRatio="xMidYMid slice" role="img" aria-label="${p.name} — producto a espera de foto">
+    <rect width="${w}" height="${h}" fill="#161414"/>
+    <rect x="14" y="14" width="${w-28}" height="${h-28}" fill="none" stroke="#3a3a3a" stroke-width="1.5" stroke-dasharray="6 6" rx="8"/>
+    <text x="${w/2}" y="${h/2}" text-anchor="middle" dominant-baseline="middle" fill="#7a7a7a" font-family="Inter, sans-serif" font-size="${big?16:13}" font-weight="600" letter-spacing="0.02em">PRODUCTO A ESPERA DE FOTO</text>
+  </svg>`;
+}
+
+/* =============================================================
+   RENDER PRODUCTOS
+   ============================================================= */
+const productsGrid = document.getElementById('productsGrid');
+PRODUCTS.forEach(p=>{
+  const card = document.createElement('article');
+  card.className = 'product-card';
+  card.innerHTML = `
+    <div class="product-media">${productSVG(p,false)}</div>
+    <div class="product-body">
+      <span class="product-cat">${p.cat}</span>
+      <h3 class="product-name">${p.name}</h3>
+      <span class="product-price">Precio: Por confirmar</span>
+      <div class="product-actions">
+        <button class="btn-sm ghost" data-details="${p.id}">Ver detalles</button>
+        <button class="btn-sm solid" data-add="${p.id}">Añadir al carrito</button>
+      </div>
+    </div>`;
+  productsGrid.appendChild(card);
+});
+
+/* =============================================================
+   CARRITO — ESTADO
+   ============================================================= */
+let cart = [];
+
+function addToCart(id){
+  const existing = cart.find(i=>i.id===id);
+  if(existing){ existing.qty++; }
+  else { cart.push({id, qty:1}); }
+  renderCart();
+  showToast('Añadido al carrito');
+}
+function changeQty(id, delta){
+  const item = cart.find(i=>i.id===id);
+  if(!item) return;
+  item.qty += delta;
+  if(item.qty<=0){ cart = cart.filter(i=>i.id!==id); }
+  renderCart();
+}
+function removeFromCart(id){
+  cart = cart.filter(i=>i.id!==id);
+  renderCart();
+}
+function cartTotalCount(){ return cart.reduce((s,i)=>s+i.qty,0); }
+
+function renderCart(){
+  document.getElementById('cartCount').textContent = cartTotalCount();
+  const wrap = document.getElementById('cartItems');
+  if(cart.length===0){
+    wrap.innerHTML = '<div class="cart-empty">Tu carrito está vacío.<br>Explora los productos y agrega tu diseño favorito.</div>';
+    document.getElementById('cartSubtotal').textContent = 'Precio por confirmar';
+    return;
+  }
+  wrap.innerHTML = cart.map(i=>{
+    const p = PRODUCTS.find(pp=>pp.id===i.id);
+    return `<div class="cart-item">
+      <div class="cart-item-media">${productSVG(p,false)}</div>
+      <div class="cart-item-info">
+        <span class="cart-item-name">${p.name}</span>
+        <span class="cart-item-price">Precio por confirmar</span>
+        <div class="qty-row">
+          <button class="qty-btn" data-dec="${p.id}" aria-label="Disminuir cantidad">−</button>
+          <span class="qty-val">${i.qty}</span>
+          <button class="qty-btn" data-inc="${p.id}" aria-label="Aumentar cantidad">+</button>
+          <button class="remove-item" data-remove="${p.id}">Eliminar</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+  document.getElementById('cartSubtotal').textContent = 'Precio por confirmar';
+}
+renderCart();
+
+document.addEventListener('click', (e)=>{
+  const add = e.target.closest('[data-add]');
+  if(add){ addToCart(add.dataset.add); }
+
+  const details = e.target.closest('[data-details]');
+  if(details){ openProductModal(details.dataset.details); }
+
+  const inc = e.target.closest('[data-inc]');
+  if(inc){ changeQty(inc.dataset.inc, 1); }
+
+  const dec = e.target.closest('[data-dec]');
+  if(dec){ changeQty(dec.dataset.dec, -1); }
+
+  const rem = e.target.closest('[data-remove]');
+  if(rem){ removeFromCart(rem.dataset.remove); }
+});
+
+/* =============================================================
+   MODAL — VER DETALLES
+   ============================================================= */
+const productModal = document.getElementById('productModal');
+let modalProductId = null;
+
+function openProductModal(id){
+  const p = PRODUCTS.find(pp=>pp.id===id);
+  if(!p) return;
+  modalProductId = id;
+  document.getElementById('modalMedia').innerHTML = productSVG(p,true);
+  document.getElementById('modalCat').textContent = p.cat;
+  document.getElementById('modalName').textContent = p.name;
+  document.getElementById('modalDesc').textContent = p.desc;
+  document.getElementById('modalPrice').textContent = 'Disponibilidad / Precio: Por confirmar';
+  openModal(productModal);
+}
+document.getElementById('modalAddBtn').addEventListener('click', ()=>{
+  if(modalProductId){ addToCart(modalProductId); closeModal(productModal); }
+});
+document.getElementById('productModalClose').addEventListener('click', ()=>closeModal(productModal));
+
+/* Modal helpers */
+function openModal(el){ el.classList.add('open'); el.setAttribute('aria-hidden','false'); document.body.style.overflow='hidden'; }
+function closeModal(el){ el.classList.remove('open'); el.setAttribute('aria-hidden','true'); if(!document.querySelector('.modal.open, .cart-drawer.open')) document.body.style.overflow=''; }
+
+[productModal, document.getElementById('checkoutModal')].forEach(m=>{
+  m.addEventListener('click', (e)=>{ if(e.target===m) closeModal(m); });
+});
+
+/* =============================================================
+   CARRITO — DRAWER
+   ============================================================= */
+const cartDrawer = document.getElementById('cartDrawer');
+const overlay = document.getElementById('overlay');
+
+function openCart(){ cartDrawer.classList.add('open'); overlay.classList.add('open'); document.body.style.overflow='hidden'; }
+function closeCart(){ cartDrawer.classList.remove('open'); overlay.classList.remove('open'); if(!document.querySelector('.modal.open')) document.body.style.overflow=''; }
+
+document.getElementById('cartOpenBtn').addEventListener('click', openCart);
+document.getElementById('cartCloseBtn').addEventListener('click', closeCart);
+overlay.addEventListener('click', ()=>{ closeCart(); closeModal(productModal); closeModal(document.getElementById('checkoutModal')); });
+
+/* =============================================================
+   CHECKOUT
+   ============================================================= */
+const checkoutModal = document.getElementById('checkoutModal');
+
+document.getElementById('goCheckoutBtn').addEventListener('click', ()=>{
+  if(cart.length===0){ showToast('Tu carrito está vacío'); return; }
+  renderOrderSummary();
+  document.getElementById('checkoutForm').style.display = 'block';
+  document.getElementById('checkoutForm').reset();
+  document.getElementById('checkoutConfirm').style.display = 'none';
+  document.querySelectorAll('.pay-method').forEach(l=>l.classList.remove('active'));
+  closeCart();
+  openModal(checkoutModal);
+});
+document.getElementById('checkoutModalClose').addEventListener('click', ()=>closeModal(checkoutModal));
+
+function renderOrderSummary(){
+  const wrap = document.getElementById('orderSummary');
+  wrap.innerHTML = cart.map(i=>{
+    const p = PRODUCTS.find(pp=>pp.id===i.id);
+    return `<div class="row"><span>${p.name} × ${i.qty}</span><strong>Por confirmar</strong></div>`;
+  }).join('') + `<div class="row"><span>Total</span><strong>Precio por confirmar</strong></div>`;
+}
+
+document.getElementById('checkoutForm').addEventListener('submit', (e)=>{
+  e.preventDefault();
+  if(cart.length===0){ showToast('Agrega productos antes de continuar'); return; }
+
+  const fd = new FormData(e.target);
+  const data = Object.fromEntries(fd.entries());
+  if(!data.payment){ showToast('Selecciona un método de pago'); return; }
+
+  const productsLines = cart.map(i=>{
+    const p = PRODUCTS.find(pp=>pp.id===i.id);
+    return `Producto: ${p.cat}\nDiseño: ${p.name.split('—')[1] ? p.name.split('—')[1].trim() : p.name}\nCantidad: ${i.qty}`;
+  }).join('\n\n');
+
+  const message =
+`Hola Edwin, tengo un nuevo pedido.
+
+${productsLines}
+
+Cliente: ${data.fname} ${data.lname}
+Teléfono: ${data.phone}
+Correo: ${data.email}
+Dirección: ${data.address}
+Ciudad: ${data.city}
+Departamento: ${data.dept}
+${data.notes ? 'Indicaciones: ' + data.notes : ''}
+
+Método de pago: ${data.payment}.`;
+
+  // El botón de WhatsApp queda disponible como contacto opcional, ya no se abre automáticamente.
+  document.getElementById('checkoutWaBtn').href = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+
+  if(SHOPIFY_CHECKOUT_URL){
+    // Shopify conectado: el pago se realiza directamente en el checkout real, sin pasar por WhatsApp.
+    window.location.href = SHOPIFY_CHECKOUT_URL;
+    return;
+  }
+
+  // Shopify aún no conectado: mostrar confirmación dentro del propio checkout, sin redirigir a WhatsApp.
+  document.getElementById('checkoutConfirmText').textContent =
+    `¡Listo, ${data.fname}! Tu pedido quedó registrado como solicitud de compra con pago por ${data.payment}. En cuanto conectemos la pasarela de pago (Shopify), podrás pagar directamente aquí mismo.`;
+  document.getElementById('checkoutForm').style.display = 'none';
+  document.getElementById('checkoutConfirm').style.display = 'block';
+
+  cart = [];
+  renderCart();
+});
+
+/* pay method active state (fallback for browsers without :has) */
+document.querySelectorAll('.pay-method').forEach(label=>{
+  label.addEventListener('click', ()=>{
+    document.querySelectorAll('.pay-method').forEach(l=>l.classList.remove('active'));
+    label.classList.add('active');
+  });
+});
+
+/* =============================================================
+   TOAST
+   ============================================================= */
+let toastTimer;
+function showToast(text){
+  const toast = document.getElementById('toast');
+  document.getElementById('toastText').textContent = text;
+  toast.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=>toast.classList.remove('show'), 2400);
+}
+
+/* =============================================================
+   HEADER — sticky glass + mobile nav
+   ============================================================= */
+const siteHeader = document.getElementById('siteHeader');
+window.addEventListener('scroll', ()=>{
+  siteHeader.classList.toggle('scrolled', window.scrollY > 30);
+}, {passive:true});
+
+const hamburgerBtn = document.getElementById('hamburgerBtn');
+const mobileNav = document.getElementById('mobileNav');
+hamburgerBtn.addEventListener('click', ()=>{
+  const isOpen = mobileNav.classList.toggle('open');
+  hamburgerBtn.classList.toggle('open', isOpen);
+  hamburgerBtn.setAttribute('aria-expanded', isOpen);
+});
+document.querySelectorAll('.mobile-nav a').forEach(a=>{
+  a.addEventListener('click', ()=>{
+    mobileNav.classList.remove('open');
+    hamburgerBtn.classList.remove('open');
+    hamburgerBtn.setAttribute('aria-expanded','false');
+  });
+});
+
+/* =============================================================
+   FONDO ANIMADO — canvas de líneas / partículas reactivas
+   ============================================================= */
+(function(){
+  const canvas = document.getElementById('bg-canvas');
+  const ctx = canvas.getContext('2d');
+  const hero = document.querySelector('.hero');
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const isMobile = window.matchMedia('(max-width:640px)').matches;
+
+  let W, H, dpr;
+  function resize(){
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    W = hero.clientWidth; H = hero.clientHeight;
+    canvas.width = W*dpr; canvas.height = H*dpr;
+    canvas.style.width = W+'px'; canvas.style.height = H+'px';
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  const lineCount = isMobile ? 7 : 14;
+  const particleCount = isMobile ? 12 : 30;
+
+  const lines = Array.from({length:lineCount}).map(()=>({
+    x: Math.random()*W, y: Math.random()*H,
+    len: 60+Math.random()*140,
+    angle: (Math.random()*40-20) * Math.PI/180,
+    baseAlpha: 0.06+Math.random()*0.12,
+    speed: 0.15+Math.random()*0.25
+  }));
+  const particles = Array.from({length:particleCount}).map(()=>({
+    x: Math.random()*W, y: Math.random()*H,
+    r: 0.6+Math.random()*1.6,
+    vx:(Math.random()-0.5)*0.15, vy:(Math.random()-0.5)*0.15,
+    alpha:0.15+Math.random()*0.35
+  }));
+
+  let mouse = {x:W/2, y:H/2, active:false};
+  const pointerHandler = (e)=>{
+    const rect = hero.getBoundingClientRect();
+    mouse.x = (e.clientX ?? (e.touches && e.touches[0].clientX)) - rect.left;
+    mouse.y = (e.clientY ?? (e.touches && e.touches[0].clientY)) - rect.top;
+    mouse.active = true;
+  };
+  hero.addEventListener('pointermove', pointerHandler, {passive:true});
+  hero.addEventListener('pointerleave', ()=>{ mouse.active=false; }, {passive:true});
+
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+
+    lines.forEach(l=>{
+      const dx = l.x - mouse.x, dy = l.y - mouse.y;
+      const dist = Math.sqrt(dx*dx+dy*dy);
+      const near = mouse.active && dist < 180;
+      const boost = near ? (1 - dist/180) : 0;
+      const alpha = Math.min(l.baseAlpha + boost*0.35, 0.55);
+      const extra = near ? boost*24 : 0;
+
+      const x2 = l.x + Math.cos(l.angle)*(l.len+extra);
+      const y2 = l.y + Math.sin(l.angle)*(l.len+extra);
+
+      ctx.strokeStyle = `rgba(224,20,44,${alpha})`;
+      ctx.lineWidth = near ? 1.6 : 1;
+      ctx.beginPath();
+      ctx.moveTo(l.x, l.y);
+      ctx.lineTo(x2, y2);
+      ctx.stroke();
+
+      if(!reducedMotion){
+        l.x += Math.cos(l.angle+Math.PI/2)*l.speed*0.05;
+        l.y += Math.sin(l.angle+Math.PI/2)*l.speed*0.05 + 0.03;
+        if(l.y > H+40){ l.y = -40; l.x = Math.random()*W; }
+      }
+    });
+
+    particles.forEach(p=>{
+      ctx.beginPath();
+      ctx.fillStyle = `rgba(245,245,243,${p.alpha})`;
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
+      ctx.fill();
+      if(!reducedMotion){
+        p.x += p.vx; p.y += p.vy;
+        if(p.x<0) p.x=W; if(p.x>W) p.x=0;
+        if(p.y<0) p.y=H; if(p.y>H) p.y=0;
+      }
+    });
+
+    if(!reducedMotion){ requestAnimationFrame(draw); }
+  }
+  draw();
+})();
+</script>
+</body>
+</html>
